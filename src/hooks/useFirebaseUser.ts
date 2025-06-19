@@ -10,21 +10,26 @@ import {
   signOut,
   linkWithCredential,
   linkWithPopup,
+  PhoneAuthProvider,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { firebaseAuth } from "../firebase/FirebaseConfig";
+import { firebaseAuth, firebaseDb } from "../firebase/FirebaseConfig";
 import { useNavigate } from "react-router";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
+import { doc, setDoc } from "firebase/firestore";
 
 export const useFirebaseUser = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User | null>(null);
+  const [userLoading, setUserLoading] = useState(true);
+
   useEffect(() => {
     if (user) {
       return;
     }
     onAuthStateChanged(firebaseAuth, (loggedInUser) => {
+      setUserLoading(false);
       if (loggedInUser) {
         setUser(loggedInUser);
       }
@@ -44,33 +49,52 @@ export const useFirebaseUser = () => {
         console.error("Error signing in:", errorCode, errorMessage);
       });
   };
-  const registerWithFirebase = (
+  const registerWithFirebase = async (
     email: string,
     password: string,
-    fullName: string
+    fullName: string,
+    address: string,
+    birthDate: string
   ) => {
-    createUserWithEmailAndPassword(firebaseAuth, email, password)
-      .then((userCredential) => {
-        // Registered and Signed in
-        const user = userCredential.user;
+    try{
+      const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      const user = userCredential.user;
+      
+      const calculateAge = (birthDate: string): number => {
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+          age--;
+        }
+        return age;
+      };
 
-        console.log("User signed in:", user);
-        updateProfile(user, {
-          displayName: fullName,
-        })
-          .then(() => {
-            console.log("Profile updated successfully");
-            navigate("/");
-          })
-          .catch((error) => {
-            console.error("Error updating profile:", error);
-          });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Error signing in:", errorCode, errorMessage);
+      const age = calculateAge(birthDate);
+      
+      await setDoc(doc(firebaseDb, "users", user.uid), {
+        fullName,
+        email,
+        address,
+        birthDate,
+        age,
+        createdAt: new Date()
       });
+
+      await updateProfile(user, {
+        displayName: fullName,
+      });
+
+      console.log("Usuario registrado y perfil creado");
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error al registrar usuario:", error.message);
+      } else {
+        console.error("Error desconocido:", error);
+      }
+    }
   };
 
   const loginWithGoogle = () => {
@@ -156,8 +180,30 @@ export const useFirebaseUser = () => {
         console.error("Error linking Facebook:", error);
       });
   };
+
+  const linkWithPhone = async (
+    verificationId: string,
+    verificationCode: string
+  ) => {
+    if (!user) {
+      return false;
+    }
+    const credential = PhoneAuthProvider.credential(
+      verificationId,
+      verificationCode
+    );
+    const userCred = await linkWithCredential(user, credential);
+    if (!userCred) {
+      console.error("Failed to link with phone");
+      return false;
+    }
+    console.log("Account linking success", user);
+    return true;
+  };
+
   return {
     user,
+    userLoading,
     loginWithFirebase,
     registerWithFirebase,
     loginWithGoogle,
@@ -165,5 +211,6 @@ export const useFirebaseUser = () => {
     logout,
     linkWithPassword,
     linkWithFacebook,
+    linkWithPhone,
   };
 };

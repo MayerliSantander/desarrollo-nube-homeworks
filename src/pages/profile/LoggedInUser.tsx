@@ -12,6 +12,7 @@ export const LoggedInUser = () => {
   const [userHasPassword, setUserHasPassword] = useState(false);
   const [userHasFacebook, setUserHasFacebook] = useState(false);
   const { linkWithFacebook } = useFirebaseUser();
+  const [userHasPhone, setUserHasPhone] = useState(false);
   
   useEffect(() => {
     if (!user) {
@@ -35,6 +36,11 @@ export const LoggedInUser = () => {
       (profile) => profile.providerId === "facebook.com"
     );
     setUserHasFacebook(hasFacebook);
+
+    const hasPhone = user.providerData.some(
+      (profile) => profile.providerId === "phone"
+    );
+    setUserHasPhone(hasPhone);
   }, [user]);
   const onAddEmailSignInClicked = () => {
     navigate("/linkpassword");
@@ -42,6 +48,11 @@ export const LoggedInUser = () => {
   const onAddFacebookSignInClicked = () => {
     linkWithFacebook();
   };
+
+  const onAddPhoneSignInClicked = () => {
+    navigate("/phonecheck");
+  };
+
   return (
     <>
       <Card>
@@ -78,6 +89,17 @@ export const LoggedInUser = () => {
                   onClick={onAddFacebookSignInClicked}
                 >
                   Add Facebook Sign In
+                </Button>
+              </div>
+            )}
+            {!userHasPhone && (
+              <div>
+                <Button
+                  variant="secondary"
+                  className="mt-3"
+                  onClick={onAddPhoneSignInClicked}
+                >
+                  Add Phone details
                 </Button>
               </div>
             )}

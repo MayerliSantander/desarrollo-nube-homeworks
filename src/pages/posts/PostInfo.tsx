@@ -15,9 +15,17 @@ export const PostInfo = ({ post, onDeleteCallback }: Props) => {
   };
 
   return (
-    <div className="my-3 border p-3 rounded">
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
+    <div className="my-4 border p-4 rounded shadow-md bg-white">
+      {post.imageUrl && (
+        <img
+          src={post.imageUrl}
+          alt="Post"
+          className="w-full h-auto mb-3 rounded-lg border"
+          style={{ maxHeight: "300px", objectFit: "cover" }}
+        />
+      )}
+      <h2 className="text-xl font-semibold mb-1">{post.title}</h2>
+      <p className="text-gray-700 mb-2">{post.content}</p>
       <Button onClick={onDeleteClick} variant="danger">
         <Trash size={12} /> Delete
       </Button>

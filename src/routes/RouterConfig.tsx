@@ -7,6 +7,7 @@ import { LinkWithPasswordPage } from "../pages/LinkWithPasswordPage";
 import PhoneCheckPage from "../pages/PhoneCheckPage";
 import ContactsPage from "../pages/contacts/ContactsPage";
 import PostsPage from "../pages/posts/PostsPage";
+import { SettingsPage } from "../pages/SettingsPage";
 
 export const RouterConfig = () => {
   return (
@@ -19,6 +20,7 @@ export const RouterConfig = () => {
       <Route path="/phonecheck" element={<PhoneCheckPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
       <Route path="/posts" element={<PostsPage />} />
+      <Route path="/settings" element={<SettingsPage />} />
       <Route path="*" element={<HomePage />} />
     </Routes>
   );

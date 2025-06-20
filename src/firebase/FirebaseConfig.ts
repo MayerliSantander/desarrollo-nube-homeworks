@@ -4,6 +4,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import * as firebaseui from 'firebaseui'
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getMessaging } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,11 +22,21 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const firebaseApp = initializeApp(firebaseConfig);
-export const firebaseAnalytics = getAnalytics(firebaseApp);
+const firebaseApp = initializeApp(firebaseConfig);
+const firebaseAnalytics = getAnalytics(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
-export const firebaseUi = new firebaseui.auth.AuthUI(firebaseAuth);
-export const firebaseDb = getFirestore(firebaseApp);
+const firebaseUi = new firebaseui.auth.AuthUI(firebaseAuth);
+const firebaseDb = getFirestore(firebaseApp);
+const firebaseStorage = getStorage(firebaseApp);
+const firebaseMessaging = getMessaging(firebaseApp);
 
 firebaseAuth.useDeviceLanguage();
-export { firebaseAuth };
+export {
+  firebaseApp,
+  firebaseAnalytics,
+  firebaseUi,
+  firebaseDb,
+  firebaseStorage,
+  firebaseAuth,
+  firebaseMessaging,
+};

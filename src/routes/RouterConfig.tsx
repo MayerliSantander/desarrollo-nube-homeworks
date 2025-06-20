@@ -6,6 +6,7 @@ import { RegisterPage } from "../pages/RegisterPage";
 import { LinkWithPasswordPage } from "../pages/LinkWithPasswordPage";
 import PhoneCheckPage from "../pages/PhoneCheckPage";
 import ContactsPage from "../pages/contacts/ContactsPage";
+import PostsPage from "../pages/posts/PostsPage";
 
 export const RouterConfig = () => {
   return (
@@ -17,6 +18,7 @@ export const RouterConfig = () => {
       <Route path="/linkpassword" element={<LinkWithPasswordPage />} />
       <Route path="/phonecheck" element={<PhoneCheckPage />} />
       <Route path="/contacts" element={<ContactsPage />} />
+      <Route path="/posts" element={<PostsPage />} />
       <Route path="*" element={<HomePage />} />
     </Routes>
   );

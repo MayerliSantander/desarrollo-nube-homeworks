@@ -8,7 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import { firebaseDb } from "../firebase/FirebaseConfig";
-import { Post } from "../pages/models/Post";
+import { Post } from "../models/Post";
 
 export class PostRepository {
   collectionName = "posts";

@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { Dialog } from "../../components/Dialog";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
-import { ContactType, ContactTypeOptions } from "../models/ContactType";
+import { ContactType, ContactTypeOptions } from "../../models/ContactType";
 import { ContactRepository } from "../../repositories/ContactRepository";
 import { useContext, useEffect } from "react";
 import { ContactContext } from "./ContactContext";

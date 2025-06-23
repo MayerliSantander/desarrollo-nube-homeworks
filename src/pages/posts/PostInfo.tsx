@@ -1,6 +1,6 @@
 import { Trash } from "react-bootstrap-icons";
 import Button from "../../components/Button";
-import { Post } from "../models/Post";
+import { Post } from "../../models/Post";
 import { PostRepository } from "../../repositories/PostRepository";
 
 type Props = {

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import type { Contact } from "../models/Contact";
+import type { Contact } from "../../models/Contact";
 import { useFirebaseUser } from "../../hooks/useFirebaseUser";
 import { ContactContext } from "./ContactContext";
 import { ContactInfo } from "./ContactInfo";

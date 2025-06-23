@@ -1,8 +1,8 @@
 import { Pencil, Trash } from "react-bootstrap-icons";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-import type { Contact } from "../models/Contact";
-import { ContactTypeStrings } from "../models/ContactType";
+import type { Contact } from "../../models/Contact";
+import { ContactTypeStrings } from "../../models/ContactType";
 import { ContactRepository } from "../../repositories/ContactRepository";
 
 type Props = {

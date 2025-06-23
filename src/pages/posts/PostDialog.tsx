@@ -8,6 +8,7 @@ import Button from "../../components/Button";
 import { Dialog } from "../../components/Dialog";
 import { uploadPostImageToCloudinary } from "../../utils/uploadPostImageToCloudinary";
 import FileInput from "../../components/FileInput";
+import { sendNotificationToAllUsers } from "../../utils/sendNotificationToAllUsers";
 
 type Inputs = {
   title: string;
@@ -49,6 +50,10 @@ export const PostDialog = () => {
         createdAt: new Date(),
       };
       await new PostRepository().addPost(newPost);
+      await sendNotificationToAllUsers(
+        "Nuevo post publicado",
+        `${user!.displayName || "Alguien"} publicó: ${data.title}`
+      );
       setIsDialogOpen(false);
       setReloadFlag(reloadFlag + 1);
       reset();

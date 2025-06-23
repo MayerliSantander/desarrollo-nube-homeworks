@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, useCallback } from "react";
 import { useFirebaseUser } from "../../hooks/useFirebaseUser";
 import { PostContext } from "./PostContext";
 import { PostRepository } from "../../repositories/PostRepository";
-import type { Post } from "../models/Post";
+import type { Post } from "../../models/Post";
 import { PostInfo } from "./PostInfo";
 
 export const PostList = () => {

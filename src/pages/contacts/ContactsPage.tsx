@@ -1,5 +1,5 @@
 import { Container } from "../../components/Container";
-import type { Contact } from "../models/Contact";
+import type { Contact } from "../../models/Contact";
 import Menu from "../../components/Menu";
 import Button from "../../components/Button";
 import { ContactDialog } from "./ContactDialog";

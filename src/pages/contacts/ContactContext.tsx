@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Contact } from "../models/Contact";
+import type { Contact } from "../../models/Contact";
 type ContactContextType = {
   reloadFlag: number;
   setReloadFlag: (flag: number) => void;

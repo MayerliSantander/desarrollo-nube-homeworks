@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { firebaseDb } from "../firebase/FirebaseConfig";
-import { Contact } from "../pages/models/Contact";
+import { Contact } from "../models/Contact";
 
 export class ContactRepository {
   collectionName = "contacts";
@@ -22,7 +22,7 @@ export class ContactRepository {
       if (contact.id) {
         delete contact.id;
       }
-      addDoc(collection(firebaseDb, this.collectionName), {
+      addDoc(this.getCollectionRef(), {
         ...contact,
       })
         .then((docRef) => {

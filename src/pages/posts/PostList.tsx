@@ -11,9 +11,9 @@ export const PostList = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const loadPosts = useCallback(async () => {
-    const thePosts = await new PostRepository().getPostsByOwnerId(user!.uid);
+    const thePosts = await new PostRepository().getAllPosts();
     setPosts(thePosts);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) loadPosts();

@@ -44,4 +44,17 @@ export class PostRepository {
         .catch(reject);
     });
   }
+
+  getAllPosts(): Promise<Post[]> {
+    return new Promise((resolve, reject) => {
+      getDocs(this.getCollectionRef())
+        .then((snapshot) => {
+          const posts: Post[] = [];
+          snapshot.forEach((doc) => posts.push(Post.fromFirestore(doc.id, doc.data())));
+          resolve(posts);
+        })
+        .catch(reject);
+    });
+  }
+
 }

@@ -33,19 +33,19 @@ export const useFirebaseNotifications = () => {
     });
   }, []);
   useEffect(() => {
-    if (!token || !user) {
-      return;
-    }
+    if (!token || !user) return;
     console.log("Firebase token updated:", token);
-    const handleTokenUpdate = async () => {
-      const repository = new UserRepository();
-      await repository.createOrUpdateNotificationToken(
-        user!.uid,
-        token!
-      );
-      await subscribeToTopic(token!, "all");
+    const updateToken = async () => {
+      try {
+        const repository = new UserRepository();
+        await repository.createOrUpdateNotificationToken(user.uid, token);
+        console.log("Token actualizado en Firestore:", token);
+        await subscribeToTopic(token, "all");
+      } catch (e) {
+        console.error("Error actualizando token en Firestore:", e);
+      }
     };
-    handleTokenUpdate();
+    updateToken();
   }, [token, user]);
   return { token, loadingToken };
 };
